@@ -1,3 +1,3 @@
 # Interview-Prep
-HiredInTech solutions &amp; few geeksforgeeks' solutions.
+HiredInTech, geeksforgeeks', leetCode solutions.
 All solutions in java
