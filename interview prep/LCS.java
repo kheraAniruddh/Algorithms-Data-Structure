@@ -1,29 +1,28 @@
 import java.util.*;
-
 class LCS {
 
-	public static int findLCS(String str1, String str2, int i, int j) {
-		if(i<0 || j<0)
-			return 0;
-		if(str1.charAt(i) == str2.charAt(j))
-			return 1+ findLCS(str1,str2,i-1,j-1);
-		else 
-			return max(findLCS(str1,str2,i-1,j), findLCS(str1,str2,i,j-1));
-	}
+	public static int findLCS(char[] x, char[] y) {
+		int tab[][] = new int[x.length+1][y.length+1];
+		List<Character> rev = new ArrayList<>();
+		for(int i=0;i<tab.length;i++){
+			for(int j=0;j<tab[0].length;j++) {
+				if(i==0 || j==0)
+					tab[i][j] = 0;
+				else if(x[i-1] == y[j-1])
+					tab[i][j] = tab[i-1][j-1]+1;
+				else
+					tab[i][j] = Math.max(tab[i-1][j], tab[i][j-1]);
 
-	public static int max(int a, int b) {
-		if(a>b) return a;
-		else
-			return b;
-	}
+			} 
+		}
 
-	
+		return tab[x.length][y.length];
+	}	
 	public static void main(String[] args) {
-		
-		System.out.println("Enter 2 strings");
-		Scanner sc = new Scanner(System.in);
-		String str1 = sc.nextLine();
-		String str2 = sc.nextLine();
-		System.out.println(findLCS(str1, str2,str1.length()-1, str2.length()-1));
+		String s1 = "AGGTAB";
+    	String s2 = "GXTXAYB";
+    	char[] x=s1.toCharArray();
+    	char[] y=s2.toCharArray();
+    	System.out.println(findLCS(x,y));
 	}
 }
