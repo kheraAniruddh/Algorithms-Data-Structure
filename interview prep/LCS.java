@@ -1,28 +1,57 @@
+import java.awt.*;
+import java.io.*;
+import java.math.*;
 import java.util.*;
-class LCS {
+class LCS
+{
+    public static void main(String args[]) throws IOException
+    {
+        //int r = (int) (Math.random() * (upper - lower)) + lower;
 
-	public static int findLCS(char[] x, char[] y) {
-		int tab[][] = new int[x.length+1][y.length+1];
-		List<Character> rev = new ArrayList<>();
-		for(int i=0;i<tab.length;i++){
-			for(int j=0;j<tab[0].length;j++) {
-				if(i==0 || j==0)
-					tab[i][j] = 0;
-				else if(x[i-1] == y[j-1])
-					tab[i][j] = tab[i-1][j-1]+1;
-				else
-					tab[i][j] = Math.max(tab[i-1][j], tab[i][j-1]);
+        int len1,len2;
+        String str1="aabdeasra";
+        String str2="padadsa";
+        len1=str1.length();
+        len2=str2.length();
+        int table[][]=new int[len2+1][len1+1];
+        for(int i=0;i<len2+1;i++) {
+            for(int j=0;j<len1+1;j++) {
+                table[i][0]=0;
+                table[0][j]=0;
+            }
+        }
 
-			} 
-		}
+        for(int i=1;i<len2+1;i++) {
+            for(int j=1;j<len1+1;j++) {
+                if(str2.charAt(i-1)==str1.charAt(j-1))
+                    table[i][j]=table[i-1][j-1]+1;
+                else 
+                    table[i][j]= Math.max(table[i-1][j], table[i][j-1]);
+            }
+        }
 
-		return tab[x.length][y.length];
-	}	
-	public static void main(String[] args) {
-		String s1 = "AGGTAB";
-    	String s2 = "GXTXAYB";
-    	char[] x=s1.toCharArray();
-    	char[] y=s2.toCharArray();
-    	System.out.println(findLCS(x,y));
-	}
+
+        for(int i=0;i<len2+1;i++) {
+            for(int j=0;j<len1+1;j++) 
+                System.out.print(table[i][j]+"\t");
+            System.out.println();
+        }
+
+        System.out.println(table[len2][len1]);
+
+        StringBuilder sb = new StringBuilder();
+        int i=len2,j=len1;
+        while(i>0 && j>0){
+                if(str1.charAt(j-1)==str2.charAt(i-1)) {
+                    sb.append(Character.toString(str2.charAt(i-1)));
+                    i--;j--;
+                }
+                else{
+                    if(table[i-1][j]>=table[i][j-1])
+                        i--;
+                    else j--;
+                }
+            }
+        System.out.println(sb.reverse());
+    }
 }
